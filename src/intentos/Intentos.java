@@ -59,7 +59,10 @@ public class Intentos {
                  System.out.println("usted ha seleccionado dar de baja \n");
                  System.out.println("escriba ahora su registro: \n");
                  
+                 Scanner borrador = new Scanner(System.in);
+                 int b_registro = borrador.nextInt();
                  
+                 it.borraDatos(b_registro);
             }
         } 
         }
@@ -139,7 +142,10 @@ public class Intentos {
                     verificador++; 
                 }
                 aa.seek(aa.getFilePointer() + 2);
-                contador++; 
+                if(contador !=9){
+                    contador++;
+                }
+                 
             }
             System.out.println(aa.readChar());
          if(verificador == 9){
@@ -152,4 +158,30 @@ public class Intentos {
          }  
     }
     }
+     public void borraDatos(int usuario)throws IOException{
+        java.io.File ff = new java.io.File("clientes.txt");
+        java.io.RandomAccessFile aa = new java.io.RandomAccessFile(ff,"rw");
+         
+        
+        
+        int longitud = (int)ff.length();
+        int longRegistro = 166;
+        
+        int registros = longitud/longRegistro;
+        System.out.println("Ahora mismo tienes " + registros + " registros \n");
+         
+        char registrosnb[] = new char[registros - 1]; 
+        
+         for(int i=0; i<registros; i++){
+            aa.seek(i * 166);
+            if(usuario != i){ 
+                 for(int j=0; j<166; j+=2){
+               
+                    registrosnb[i] = aa.readChar();
+                    aa.seek(aa.getFilePointer() + 2);
+                }
+            }   
+    }
+         
+     }
 }
